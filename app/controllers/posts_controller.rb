@@ -17,11 +17,12 @@ class PostsController < ApplicationController
   end
 
   def edit
+    @post = Post.find(params[:id])
   end
 
   def create
     @post = Post.new(post_params)
-
+    @post.user_id = current_user.id
     respond_to do |format|
       if @post.save
         format.html { redirect_to post_url(@post), notice: "Post was successfully created." }
@@ -56,6 +57,8 @@ class PostsController < ApplicationController
 
   def confirm
     @post = Post.new(post_params)
+    @post.user_id = current_user.id
+    @post.user_id = current_user.id
   end
 
   private
