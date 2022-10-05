@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   include SessionsHelper
   before_action :login_required
   before_action :login_required, except: [:index]
+  
   private
 
   def login_required
