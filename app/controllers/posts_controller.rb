@@ -24,14 +24,18 @@ class PostsController < ApplicationController
     @post = Post.new(post_params)
     @post.user_id = current_user.id
     respond_to do |format|
-      if @post.save
-        format.html { redirect_to post_url(@post), notice: "Post was successfully created." }
-        format.json { render :show, status: :created, location: @post }
+      if params[:back]
+        render :new
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
+        if @post.save
+          format.html { redirect_to post_url(@post), notice: "Post was successfully created." }
+          format.json { render :show, status: :created, location: @post }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @post.errors, status: :unprocessable_entity }
+        end
       end
-    end
+    end  
   end
 
   def update
@@ -57,6 +61,7 @@ class PostsController < ApplicationController
 
   def confirm
     @post = Post.new(post_params)
+    render :new if @post.invalid?
     @post.user_id = current_user.id
     @post.user_id = current_user.id
   end
